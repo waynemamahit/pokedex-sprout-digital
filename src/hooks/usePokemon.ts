@@ -1,20 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { PokemonDetail, PokemonEvolveChain } from '../models/PokemonModel';
 import PokemonService from '../services/PokemonService';
 
 export default function usePokemon() {
-  const [loading, setLoading] = useState(true);
   const [list, setList] = useState<PokemonDetail[]>([]);
+  const [next, setNext] = useState<string | null>(null);
   const [detail, setDetail] = useState<PokemonDetail | null>(null);
   const [evolveLoad, setEvolveLoad] = useState(false);
   const [listEvolve, setListEvolve] = useState<PokemonEvolveChain[]>([]);
 
-  const getList = async () => {
-    const { data, message } = await PokemonService.getData();
+  const processList = async (query = '') => {
+    const { data, message } = await PokemonService.getData(query);
+    const result: PokemonDetail[] = [];
     if (data === null) {
       alert(message);
     } else {
-      const result: PokemonDetail[] = [];
+      setNext(data.next ? data.next.split('?')[1] : null);
       for (const dataItem of data.results) {
         const detailItem = await PokemonService.getDetail(dataItem.name);
         if (detailItem.data === null) continue;
@@ -30,37 +31,60 @@ export default function usePokemon() {
         }
         result.push(detailItem.data);
       }
-      setList(result);
     }
-    setLoading(false);
+    return result;
   };
 
-  const showDetail = async (id: number) => {
-    const result = list.find((item) => item.id === id);
-    setDetail(typeof result !== 'undefined' ? result : null);
-  };
+  const getList = useCallback(async () => {
+    setList(await processList());
+  }, [setList]);
 
-  const showEvolution = async (id: string) => {
-    setEvolveLoad(true);
-    const { data, message } = await PokemonService.getEvolutionChain(id);
-    if (data === null) {
-      alert(message);
-    } else {
-      setListEvolve(data.chain.evolve_to);
+  const showDetail = useCallback(
+    async (id: number) => {
+      const result = list.find((item) => item.id === id);
+      setDetail(result || null);
+    },
+    [list]
+  );
+
+  const showEvolution = useCallback(
+    async (id: string) => {
+      setEvolveLoad(true);
+      const { data, message } = await PokemonService.getEvolutionChain(id);
+      if (data === null) {
+        alert(message);
+      } else {
+        setListEvolve(data.chain.evolve_to);
+      }
+      setEvolveLoad(false);
+    },
+    [setEvolveLoad, setListEvolve]
+  );
+
+  const showNextData = useCallback(async () => {
+    if (next !== null) {
+      const mapStringify = (itemList: PokemonDetail) =>
+        JSON.stringify(itemList);
+      const newList = (await processList(next)).map(mapStringify);
+      setList((prevState) =>
+        [...new Set([...prevState.map(mapStringify), ...newList])].map(
+          (listItem: string) => JSON.parse(listItem)
+        )
+      );
     }
-    setEvolveLoad(false);
-  };
+  }, [next, setList]);
 
   useEffect(() => {
     getList();
-  }, []);
+  }, [getList]);
 
   return {
-    loading,
     list,
     detail,
     evolveLoad,
     listEvolve,
+    next,
+    showNextData,
     showDetail,
     showEvolution,
   };

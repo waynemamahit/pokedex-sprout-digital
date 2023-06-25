@@ -8,8 +8,10 @@ import Http from '../utils/Http';
 
 const baseUrl = 'https://pokeapi.co/api/v2/';
 
-const getData = async () =>
-  await Http.get<PokemonListResponse<PokemonBase>>(baseUrl + 'pokemon');
+const getData = async (query = '') =>
+  await Http.get<PokemonListResponse<PokemonBase>>(
+    baseUrl + 'pokemon' + (query.length > 0 ? `?${query}` : '')
+  );
 
 const getDetail = async (id: string) =>
   await Http.get<PokemonDetail>(baseUrl + 'pokemon/' + id);

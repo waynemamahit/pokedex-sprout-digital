@@ -12,7 +12,7 @@ export interface PokemonListResponse<T> {
 
 export class PokemonDetail {
   id = 0;
-  name = '';
+  name = 'LALALLALAL';
   order = 0;
   types: PokemonType[] = [];
   height = 0;
@@ -21,6 +21,7 @@ export class PokemonDetail {
   stats: PokemonStat[] = [];
   moves: PokemonMove[] = [];
   sprites = new PokemonSprite();
+  species = new PokemonBase();
 }
 
 export interface PokemonType {
