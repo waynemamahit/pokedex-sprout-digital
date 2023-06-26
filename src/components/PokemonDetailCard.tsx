@@ -36,7 +36,7 @@ export default function PokemonDetailCard({ detail }: PokemonDetailProps) {
     },
   ]);
 
-  const onChange = useCallback(
+  const onChangeTab = useCallback(
     (tabItem: TabType) => {
       const newTabs = tabs.map((newTabItem) => {
         newTabItem.isActive = newTabItem === tabItem;
@@ -61,14 +61,14 @@ export default function PokemonDetailCard({ detail }: PokemonDetailProps) {
         </div>
       </div>
       <img
-        className="block w-[75%]  mx-auto"
+        className="block w-[60%]  mx-auto"
         src={detail.sprites.other.home.front_default ?? ''}
         alt={detail.name}
         title={detail.name}
       />
       <div className="bg-white h-[60%] rounded-t-3xl border-blue pt-6">
         <div className="tabs">
-          <MemoTabs items={tabs} onClick={onChange} />
+          <MemoTabs items={tabs} onClick={onChangeTab} />
         </div>
         <div className="px-10 py-4">
           {tabs.find((tabItem) => tabItem.isActive)?.children({ detail }) ||
