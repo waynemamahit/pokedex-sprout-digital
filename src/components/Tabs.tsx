@@ -1,12 +1,14 @@
-import { useCallback, useState } from 'react';
+import { ReactElement, ReactNode, useCallback, useState, JSX } from 'react';
 
 export interface TabType<ChildrenPropsType> {
   label: string;
   isActive: boolean;
-  children: (props: ChildrenPropsType) => React.ReactNode;
+  Component: (props: ChildrenPropsType) => ReactNode | ReactElement;
 }
 
-export default function Tabs<ChildrenPropsType>({
+export default function Tabs<
+  ChildrenPropsType extends JSX.IntrinsicAttributes
+>({
   items,
   props,
 }: {
@@ -25,10 +27,11 @@ export default function Tabs<ChildrenPropsType>({
     },
     [tabs]
   );
+
   return (
     <>
       <div className="tabs">
-        {items.map((tabItem) => (
+        {tabs.map((tabItem) => (
           <a
             onClick={() => onChangeTab(tabItem)}
             key={tabItem.label}
@@ -44,9 +47,10 @@ export default function Tabs<ChildrenPropsType>({
         ))}
       </div>
       <div className="px-10 py-4">
-        {tabs.find((tabItem) => tabItem.isActive)?.children(props) || null}
+        {tabs.map(({ label, isActive, Component }) => {
+          return isActive && <Component key={label} {...props} />;
+        })}
       </div>
     </>
   );
-  return;
 }

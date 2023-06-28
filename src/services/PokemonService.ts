@@ -3,6 +3,7 @@ import {
   PokemonDetail,
   PokemonEvolveResponse,
   PokemonListResponse,
+  PokemonSpeciesResponse,
 } from '../models/PokemonModel';
 import Http from '../utils/Http';
 
@@ -16,11 +17,15 @@ const getData = async (query = '') =>
 const getDetail = async (id: string) =>
   await Http.get<PokemonDetail>(baseUrl + 'pokemon/' + id);
 
-const getEvolutionChain = async (id: string) =>
-  await Http.get<PokemonEvolveResponse>(baseUrl + 'evolution-chain/' + id);
+const getSpecies = async (url: string) =>
+  await Http.get<PokemonSpeciesResponse>(url);
+
+const getEvolutionChain = async (url: string = baseUrl) =>
+  await Http.get<PokemonEvolveResponse>(url);
 
 export default {
   getData,
   getDetail,
+  getSpecies,
   getEvolutionChain,
 };

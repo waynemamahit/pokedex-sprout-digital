@@ -26,7 +26,7 @@ export default function PokemonAbout({ detail }: PokemonDetailProps) {
       const value = form[key].split('');
       value[0] = value[0].toUpperCase();
       info.push(
-        <div key={key} className="flex pt-2">
+        <div key={key} className="flex pt-3">
           <div className="flex-1 max-w-[100px]">{key}</div>
           <div className="flex-2 font-bold">{value.join('')}</div>
         </div>

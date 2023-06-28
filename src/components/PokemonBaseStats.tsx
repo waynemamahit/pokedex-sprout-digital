@@ -22,7 +22,7 @@ export default function PokemonBaseStats({ detail }: PokemonDetailProps) {
         <progress
           className={'progress w-full ' + statIndicators[index]}
           value={statItem.base_stat}
-          max="100"
+          max="250"
         ></progress>
       </div>
     </div>

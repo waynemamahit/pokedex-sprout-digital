@@ -43,7 +43,7 @@ export interface PokemonStat {
 
 export class PokemonEvolveChain {
   species: PokemonBase = new PokemonBase();
-  evolve_to: PokemonEvolveChain[] = [];
+  evolves_to: PokemonEvolveChain[] = [];
 }
 
 export class PokemonEvolveResponse {
@@ -73,4 +73,8 @@ export class PokemonSprite extends PokemonSpriteRef {
 export class PokemonSpriteOther {
   dream_world = new PokemonSpriteRef();
   home = new PokemonSpriteRef();
+}
+
+export interface PokemonSpeciesResponse {
+  evolution_chain: PokemonBase;
 }
