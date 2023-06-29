@@ -1,12 +1,14 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { PokemonEvolveChain } from '../models/PokemonModel';
 import PokemonService from '../services/PokemonService';
+import { ModalContext } from '../context/ModalContext';
 
 export default function useEvolve() {
   const [evolveLoad, setEvolveLoad] = useState(true);
   const [chain, setChain] = useState<PokemonEvolveChain>(
     new PokemonEvolveChain()
   );
+  const modal = useContext(ModalContext);
 
   const showEvolution = useCallback(
     async (url: string) => {
@@ -15,20 +17,20 @@ export default function useEvolve() {
         await PokemonService.getSpecies(url);
       if (species === null) {
         setEvolveLoad(false);
-        alert(speciesMessage);
+        modal?.showModal({ message: speciesMessage });
         return;
       }
       const { data, message } = await PokemonService.getEvolutionChain(
         species.evolution_chain.url
       );
       if (data === null) {
-        alert(message);
+        modal?.showModal({ message: message });
       } else {
         setChain(data.chain);
       }
       setEvolveLoad(false);
     },
-    [setEvolveLoad, setChain]
+    [setEvolveLoad, setChain, modal]
   );
 
   return {

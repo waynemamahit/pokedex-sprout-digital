@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, useCallback, useState, JSX } from 'react';
+import { JSX, ReactElement, ReactNode, useCallback, useState } from 'react';
 
 export interface TabType<ChildrenPropsType> {
   label: string;

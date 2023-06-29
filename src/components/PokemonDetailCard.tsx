@@ -42,12 +42,12 @@ export default function PokemonDetailCard({
   loading: boolean;
 }) {
   return (
-    <PokemonCard className="w-full h-auto min-h-full max-h-full p-0 overflow-auto">
+    <PokemonCard className="max-w-full h-full p-0">
       {!loading ? (
-        <>
-          <div className="flex justify-between align-middle mx-10 mt-4">
+        <div className="flex flex-col justify-end">
+          <div className="flex flex-wrap justify-between align-middle mx-10 mt-4">
             <div>
-              <h2 className="flex-col text-5xl font-bold text-white my-3">
+              <h2 className="flex-col text-lg sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white my-3">
                 {detail.name}
               </h2>
               <PokemonTypes items={detail.types} />
@@ -57,15 +57,15 @@ export default function PokemonDetailCard({
             </div>
           </div>
           <img
-            className="block w-[60%]  mx-auto"
+            className="block w-[58%] mx-auto"
             src={detail.sprites.other.home.front_default ?? ''}
             alt={detail.name}
             title={detail.name}
           />
-          <div className="bg-white min-w-[500px] h-[60%] rounded-t-3xl border-blue pt-6">
+          <div className="bg-white min-w-[100%] rounded-t-3xl border-blue pt-6">
             <Tabs<PokemonDetailProps> items={tabs} props={{ detail }} />
           </div>
-        </>
+        </div>
       ) : (
         <span className="loading loading-spinner w-[40%] text-info mx-auto mt-[32%]"></span>
       )}

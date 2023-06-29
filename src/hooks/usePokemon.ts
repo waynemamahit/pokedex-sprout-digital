@@ -1,12 +1,14 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { PokemonDetail } from '../models/PokemonModel';
 import PokemonService from '../services/PokemonService';
+import { ModalContext } from '../context/ModalContext';
 
 export default function usePokemon() {
   const [detail, setDetail] = useState<PokemonDetail | null>(null);
   const [detailLoad, setDetailLoad] = useState(false);
   const [list, setList] = useState<PokemonDetail[]>([]);
   const [next, setNext] = useState<string | null>(null);
+  const modal = useContext(ModalContext);
 
   const processDetail = useCallback(async (id: string) => {
     const detailItem = await PokemonService.getDetail(id);
@@ -29,7 +31,7 @@ export default function usePokemon() {
       const { data, message } = await PokemonService.getData(query);
       const result: PokemonDetail[] = [];
       if (data === null) {
-        alert(message);
+        modal?.showModal({ message });
       } else {
         setNext(data.next ? data.next.split('?')[1] : null);
         for (const dataItem of data.results) {
@@ -40,7 +42,7 @@ export default function usePokemon() {
       }
       return result;
     },
-    [setNext, processDetail]
+    [setNext, processDetail, modal]
   );
 
   const getList = useCallback(async () => {
@@ -56,15 +58,14 @@ export default function usePokemon() {
         setDetailLoad(true);
         const { data, message } = await processDetail(id.toString());
         if (data === null) {
-          alert(message);
+          modal?.showModal({ message });
         } else {
           setDetail(data);
-          setList([...list, data]);
         }
         setDetailLoad(false);
       }
     },
-    [list, processDetail, setDetail, setDetailLoad]
+    [list, processDetail, setDetail, setDetailLoad, modal]
   );
 
   const showNextData = useCallback(async () => {
@@ -89,6 +90,7 @@ export default function usePokemon() {
     detail,
     detailLoad,
     next,
+    getList,
     showNextData,
     showDetail,
   };
