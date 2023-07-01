@@ -9,36 +9,34 @@ export default function PokemonEvolution({ detail }: PokemonDetailProps) {
   const { chain, evolveLoad, showEvolution } = useEvolve();
   const context = useContext(PokemonContext);
 
+  const onRefresh = () => showEvolution(detail.species.url);
+
+  const renderChain = (chain: PokemonEvolveChain) => (
+    <li
+      key={chain.species.name}
+      onClick={(evt: React.MouseEvent<HTMLLIElement, MouseEvent>) => {
+        evt.stopPropagation();
+        context?.showDetail(chain.species.name);
+      }}
+    >
+      <a>{chain.species.name.toUpperCase()}</a>
+      {chain.evolves_to.length > 0 && (
+        <ul>{chain.evolves_to.map((evolveItem) => renderChain(evolveItem))}</ul>
+      )}
+    </li>
+  );
+
   useEffect(() => {
     showEvolution(detail.species.url);
   }, [showEvolution, detail]);
-
-  const onRefresh = () => showEvolution(detail.species.url);
 
   return evolveLoad ? (
     <progress className="progress progress-info w-full"></progress>
   ) : (
     <div className="flex justify-center">
-      {chain.evolves_to.length > 0 ? (
-        <ul className="steps steps-vertical">
-          {(() => {
-            let evolves = chain.evolves_to;
-            const result: PokemonEvolveChain[] = [chain];
-            while (evolves.length > 0) {
-              const evolveChainItem = evolves[0];
-              result.push(evolveChainItem);
-              evolves = evolveChainItem.evolves_to;
-            }
-            return result.map((resultItem) => (
-              <li
-                key={resultItem.species.name}
-                className="step step-info cursor-pointer font-bold transition hover:text-info"
-                onClick={() => context?.showDetail(resultItem.species.name)}
-              >
-                {resultItem.species.name.toUpperCase()}
-              </li>
-            ));
-          })()}
+      {chain ? (
+        <ul className="menu bg-cyan-100 text-cyan-900 shadow-md font-bold w-3/4 rounded-box">
+          {renderChain(chain)}
         </ul>
       ) : (
         <Alert message="Data evolution not found!" onClick={onRefresh} />

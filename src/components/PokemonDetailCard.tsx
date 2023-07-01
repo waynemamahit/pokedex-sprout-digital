@@ -42,7 +42,7 @@ export default function PokemonDetailCard({
   loading: boolean;
 }) {
   return (
-    <PokemonCard className="max-w-full h-full p-0">
+    <PokemonCard className="max-w-full h-auto md:h-full p-0">
       {!loading ? (
         <div className="flex flex-col justify-end">
           <div className="flex flex-wrap justify-between align-middle mx-10 mt-4">
