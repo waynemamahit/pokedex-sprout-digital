@@ -22,7 +22,7 @@ export default function PokemonAbout({ detail }: PokemonDetailProps) {
 
   const info = [];
   for (const key in form) {
-    if (Object.prototype.hasOwnProperty.call(form, key)) {
+    if (Object.hasOwn(form, key)) {
       const value = form[key].split('');
       value[0] = value[0].toUpperCase();
       info.push(

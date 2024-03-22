@@ -30,20 +30,20 @@ export default function Tabs<
 
   return (
     <>
-      <div className="tabs">
+      <div role='tablist' className="tabs tabs-bordered tabs-lg">
         {tabs.map((tabItem) => (
-          <a
+          <button
             onClick={() => onChangeTab(tabItem)}
             key={tabItem.label}
             className={
-              'h-auto text-[100%] pb-6 transition tab tab-bordered tab-lg w-1/4 ' +
+              'h-auto text-[100%] pb-6 transition tab ' +
               (tabItem.isActive
                 ? 'tab-active !border-blue-600 font-bold'
                 : 'border-none')
             }
           >
             {tabItem.label}
-          </a>
+          </button>
         ))}
       </div>
       <div className="px-10 py-4">
