@@ -2,8 +2,8 @@ import { useCallback, useMemo } from 'react';
 import './App.css';
 import pokedexLogo from './assets/pokedex_logo.png';
 import Modal from './components/Modal';
-import { MemoPokemonDetailCard } from './components/PokemonDetailCard';
-import { MemoPokemonList } from './components/PokemonList';
+import PokemonDetailCard from './components/PokemonDetailCard';
+import PokemonList from './components/PokemonList';
 import { PokemonContext } from './context/PokemonContext';
 import usePokemon from './hooks/usePokemon';
 
@@ -33,7 +33,7 @@ function App() {
               alt="Pokedex"
               title="Pokedex"
             />
-            <MemoPokemonList
+            <PokemonList
               list={list}
               next={next}
               onRefresh={onRefresh}
@@ -48,7 +48,7 @@ function App() {
           </div>
           {detail && (
             <div className="flex-auto md:flex-1 max-w-full h-screen p-6 mx-auto bg-[#c6ddff] overflow-auto">
-              <MemoPokemonDetailCard detail={detail} loading={detailLoad} />
+              <PokemonDetailCard detail={detail} loading={detailLoad} />
             </div>
           )}
         </div>

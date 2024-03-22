@@ -1,8 +1,8 @@
-import { memo, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { PokemonDetail } from '../models/PokemonModel';
+import Alert from './Alert';
 import PokemonCard from './PokemonCard';
 import PokemonTypes from './PokemonTypes';
-import Alert from './Alert';
 
 export default function PokemonList({
   list,
@@ -75,5 +75,3 @@ export default function PokemonList({
     </div>
   );
 }
-
-export const MemoPokemonList = memo(PokemonList);

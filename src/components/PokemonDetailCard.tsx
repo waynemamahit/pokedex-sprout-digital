@@ -1,4 +1,4 @@
-import { JSX, memo } from 'react';
+import { JSX } from 'react';
 import { PokemonDetail } from '../models/PokemonModel';
 import PokemonAbout from './PokemonAbout';
 import PokemonBaseStats from './PokemonBaseStats';
@@ -72,5 +72,3 @@ export default function PokemonDetailCard({
     </PokemonCard>
   );
 }
-
-export const MemoPokemonDetailCard = memo(PokemonDetailCard);
