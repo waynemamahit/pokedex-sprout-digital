@@ -30,7 +30,7 @@ export default function Tabs<
 
   return (
     <>
-      <div role='tablist' className="tabs tabs-bordered tabs-lg">
+      <div role="tablist" className="tabs tabs-bordered tabs-lg">
         {tabs.map((tabItem) => (
           <button
             onClick={() => onChangeTab(tabItem)}

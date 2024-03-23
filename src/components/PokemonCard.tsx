@@ -1,6 +1,4 @@
-import React from 'react';
-
-export default function Card({
+export default function PokemonCard({
   children,
   className,
   onClick,

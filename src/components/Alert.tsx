@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function Alert({
   message,
   type = 'alert-error',
