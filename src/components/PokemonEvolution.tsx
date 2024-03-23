@@ -1,3 +1,4 @@
+import { For } from 'million/react';
 import { useContext, useEffect } from 'react';
 import { PokemonContext } from '../context/PokemonContext';
 import useEvolve from '../hooks/useEvolve';
@@ -21,7 +22,11 @@ export default function PokemonEvolution({ detail }: PokemonDetailProps) {
     >
       <a>{chain.species.name.toUpperCase()}</a>
       {chain.evolves_to.length > 0 && (
-        <ul>{chain.evolves_to.map((evolveItem) => renderChain(evolveItem))}</ul>
+        <ul>
+          <For each={chain.evolves_to}>
+            {(evolveItem) => renderChain(evolveItem)}
+          </For>
+        </ul>
       )}
     </li>
   );
