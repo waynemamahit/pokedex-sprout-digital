@@ -30,13 +30,13 @@ export default function Tabs<
 
   return (
     <>
-      <div role="tablist" className="tabs tabs-bordered tabs-lg">
+      <div role="tablist" className="tabs tabs-bordered tabs-sm overflow-auto">
         {tabs.map((tabItem) => (
           <button
             onClick={() => onChangeTab(tabItem)}
             key={tabItem.label}
             className={
-              'h-auto text-[100%] pb-6 transition tab ' +
+              'h-auto text-[100%] pb-5 leading-6 transition tab ' +
               (tabItem.isActive
                 ? 'tab-active !border-blue-600 font-bold'
                 : 'border-none')
